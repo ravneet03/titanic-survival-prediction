@@ -22,4 +22,5 @@ deploy:
   stage: deploy
   script:
     - docker run -d -p 80:80 --name my-fastapi-app my-fastapi-app
-
+  only:
+    - main
