@@ -1,0 +1,48 @@
+minikube start
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: titanic-training-pipeline-
+spec:
+  entrypoint: titanic-training-pipeline
+  templates:
+  - name: titanic-training-pipeline
+    dag:
+      tasks:
+      - name: preprocess-data
+        template: preprocess-data
+      - name: train-model
+        template: train-model
+        dependencies: [preprocess-data]
+      - name: evaluate-model
+        template: evaluate-model
+        dependencies: [train-model]
+
+  - name: preprocess-data
+    container:
+      image: python:3.8
+      command: ["python", "-u", "dataset.py"]
+      volumeMounts:
+      - name: pipeline-data
+        mountPath: /mnt/data
+
+  - name: train-model
+    container:
+      image: python:3.8
+      command: ["python", "-u", "modeling/train.py"]
+      volumeMounts:
+      - name: pipeline-data
+        mountPath: /mnt/data
+
+  - name: evaluate-model
+    container:
+      image: python:3.8
+      command: ["python", "-u", "modeling/evaluate.py"]
+      volumeMounts:
+      - name: pipeline-data
+        mountPath: /mnt/data
+
+  volumes:
+  - name: pipeline-data
+    persistentVolumeClaim:
+      claimName: pipeline-data-pvc
