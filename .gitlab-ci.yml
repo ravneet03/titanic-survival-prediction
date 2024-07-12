@@ -21,5 +21,6 @@ build:
 deploy:
   stage: deploy
   script:
-    - docker run -d -p 80:80 --name my-fastapi-app my-fastapi-app
-
+    - docker run -d -p 8000:8000 my-fastapi-app
+    - sleep 5 # wait for the container to be up
+    - docker ps -a # check if the container is running
