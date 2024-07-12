@@ -16,11 +16,18 @@ before_script:
 build:
   stage: build
   script:
-    - docker build -t my-fastapi-app -f api/Dockerfile .
+    - docker build -t my-fastapi-app:latest -f api/Dockerfile .
+    - docker save my-fastapi-app:latest -o my-fastapi-app.tar
+  artifacts:
+    paths:
+      - my-fastapi-app.tar
 
 deploy:
   stage: deploy
+  dependencies:
+    - build
   script:
-    - docker run -d -p 8000:8000 my-fastapi-app
+    - docker load -i my-fastapi-app.tar
+    - docker run -d -p 8000:8000 my-fastapi-app:latest
     - sleep 5 # wait for the container to be up
     - docker ps -a # check if the container is running
