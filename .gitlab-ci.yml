@@ -21,6 +21,9 @@ build:
   artifacts:
     paths:
       - my-fastapi-app.tar
+  tags:
+    - localrunner
+    - localshell
 
 deploy:
   stage: deploy
@@ -31,3 +34,6 @@ deploy:
     - docker run -d -p 8000:8000 my-fastapi-app:latest
     - sleep 5 # wait for the container to be up
     - docker ps -a # check if the container is running
+  tags:
+    - localrunner
+    - localshell
