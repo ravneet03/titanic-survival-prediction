@@ -31,7 +31,7 @@ deploy:
     - build
   script:
     - docker load -i my-fastapi-app.tar
-    - docker run -d -p 8000:8000 my-fastapi-app:latest
+    - docker run -d -p 5000:5000 my-fastapi-app:latest
     - sleep 5 # wait for the container to be up
     - docker ps -a # check if the container is running
   tags:
