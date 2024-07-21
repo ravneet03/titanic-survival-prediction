@@ -15,26 +15,18 @@ before_script:
 
 build:
   stage: build
-  image: docker:latest
-  services:
-    - docker:dind
   script:
-    - docker info
-    - docker build -t my-fastapi-app:latest -f api/Dockerfile api/
+    - docker build -t my-fastapi-app:latest -f api/Dockerfile .
     - docker save my-fastapi-app:latest -o my-fastapi-app.tar
   artifacts:
     paths:
       - my-fastapi-app.tar
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-    - if: '$CI_COMMIT_BRANCH == "exp"'
-    - if: '$CI_COMMIT_BRANCH == "working"'
+  tags:
+    - localrunner
+    - localshell
 
 deploy:
   stage: deploy
-  image: docker:latest
-  services:
-    - docker:dind
   dependencies:
     - build
   script:
@@ -45,5 +37,3 @@ deploy:
   tags:
     - localrunner
     - localshell
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
