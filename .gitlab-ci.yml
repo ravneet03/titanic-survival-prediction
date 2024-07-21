@@ -30,9 +30,11 @@ build:
     - if: '$CI_COMMIT_BRANCH == "exp"'
     - if: '$CI_COMMIT_BRANCH == "working"'
 
-
 deploy:
   stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
   dependencies:
     - build
   script:
@@ -43,3 +45,5 @@ deploy:
   tags:
     - localrunner
     - localshell
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
