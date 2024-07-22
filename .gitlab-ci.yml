@@ -5,8 +5,7 @@ services:
 
 stages:
   - build
-  - deploy_train
-  - deploy_serve
+  - deploy
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -14,48 +13,27 @@ variables:
 before_script:
   - docker info
 
-# Common Clone Job
-clone_repo:
+build:
   stage: build
   script:
-    - git clone <repository-url> /builds/project-0
-    - cd /builds/project-0
-
-# Build Job
-build_image:
-  stage: build
-  script:
-    - cd /builds/project-0
-    - docker build -t my-app:latest -f api/Dockerfile .
-    - docker save my-app:latest -o my-app.tar
+    - docker build -t my-fastapi-app:latest -f api/Dockerfile .
+    - docker save my-fastapi-app:latest -o my-fastapi-app.tar
   artifacts:
     paths:
-      - my-app.tar
-  dependencies:
-    - clone_repo
+      - my-fastapi-app.tar
+  tags:
+    - localrunner
+    - localshell
 
-# Deploy Training Job
-deploy_train:
-  stage: deploy_train
+deploy:
+  stage: deploy
   dependencies:
-    - build_image
+    - build
   script:
-    - docker load -i my-app.tar
-    - docker run -d --name training-container my-app:latest python train.py
+    - docker load -i my-fastapi-app.tar
+    - docker run -d -p 5000:5000 my-fastapi-app:latest
     - sleep 5 # wait for the container to be up
     - docker ps -a # check if the container is running
-
-# Deploy Serving Job
-deploy_serve:
-  stage: deploy_serve
-  dependencies:
-    - build_image
-  script:
-    - docker load -i my-app.tar
-    - docker run -d -p 5000:5000 --name serving-container my-app:latest
-    - sleep 5 # wait for the container to be up
-    - docker ps -a # check if the container is running
-
-tags:
-  - localrunner
-  - localshell
+  tags:
+    - localrunner
+    - localshell
