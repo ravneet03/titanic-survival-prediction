@@ -1,0 +1,36 @@
+stages:
+  - build
+  - deploy_serve
+
+# Build Job
+build_image:
+  stage: build
+  script:
+    - echo "Building Docker image..."
+    - cd $CI_PROJECT_DIR
+    - ls -la # Verify files in the directory
+    - docker build -t my-app:latest -f api/Dockerfile .
+    - docker save my-app:latest -o my-app.tar
+  artifacts:
+    paths:
+      - my-app.tar
+  tags:
+    - localrunner
+    - localshell
+
+# Deploy Serving Job
+deploy_serve:
+  stage: deploy_serve
+  script:
+    - echo "Deploying serving container..."
+    - docker load -i my-app.tar
+    - docker stop serving-container || true
+    - docker rm serving-container || true
+    - docker run -d -e PORT=5002 -p 5002:5002 --name serving-container my-app:latest
+    - sleep 5 # wait for the container to be up
+    - docker ps -a # check if the container is running
+  dependencies:
+    - build_image
+  tags:
+    - localrunner
+    - localshell
