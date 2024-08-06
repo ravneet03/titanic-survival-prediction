@@ -1,5 +1,6 @@
 fastapi
 uvicorn
-pandas
-mlflow
 scikit-learn
+pandas
+joblib
+bottleneck
