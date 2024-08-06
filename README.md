@@ -54,9 +54,9 @@ Make sure you have the following installed:
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples, and demos work well in this space. You may also link to more resources.
 
-### Folder Structure
+## Folder Structure
 
-\`\`\`plaintext
+```plaintext
 first/
 ├── api/
 │   ├── Dockerfile
@@ -94,7 +94,8 @@ first/
 │   │   ├── predict.py
 │   │   └── train.py
 │   └── plots.py
-\`\`\`
+```
+
 
 ### Running the Application
 
@@ -124,11 +125,6 @@ Follow these steps to run the entire application:
     python cli_tool.py service-deploy
     ```
 
-### Build Docker Images
-
-```sh
-docker-compose build
-
 
 ### GitLab CI/CD Pipelines
 
@@ -141,21 +137,21 @@ Contributions are what make the open source community such an amazing place to l
 1. **Fork the Project**
 2. **Create your Feature Branch**
 
-   \`\`\`bash
+   ```bash
    git checkout -b feature/AmazingFeature
-   \`\`\`
+   ```
 
 3. **Commit your Changes**
 
-   \`\`\`bash
+   ```bash
    git commit -m 'Add some AmazingFeature'
-   \`\`\`
+   ```
 
 4. **Push to the Branch**
 
-   \`\`\`bash
+   ```bash
    git push origin feature/AmazingFeature
-   \`\`\`
+   ```
 
 5. **Open a Pull Request**
 
@@ -165,7 +161,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_twitter) - email@example.com
+Your Name - [Ravneet Singh]- ravneetsingh290@gmail.com
 
 Project Link: [https://gitlab.com/mygroup18094828/first](https://gitlab.com/mygroup18094828/first)
 
