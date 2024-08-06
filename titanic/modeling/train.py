@@ -1,14 +1,22 @@
 import pandas as pd
+import numpy
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 import joblib
+import os
 
 # Define data paths
-PROCESSED_DATA_PATH = '/home/ravneet-singh/machine-learning/titanic-survival-prediction/data/processed/titanic_processed.csv'
-MODEL_PATH = '/home/ravneet-singh/machine-learning/titanic-survival-prediction/models/titanic_model.pkl'
+if os.path.exists('/app'):
+    # Inside Docker container
+    PROCESSED_DATA_PATH = '/apps/data/processed/titanic_processed.csv'
+    MODEL_PATH = '/apps/api/models/titanic_model.pkl'
+else:
+    # Local machine
+    PROCESSED_DATA_PATH = '/home/ravneet-singh/first/data/processed/titanic_processed.csv'
+    MODEL_PATH = '/home/ravneet-singh/first/api/models/titanic_model.pkl'
 
 def load_data():
     return pd.read_csv(PROCESSED_DATA_PATH)

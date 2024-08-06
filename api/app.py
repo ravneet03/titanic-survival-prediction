@@ -8,7 +8,8 @@ import numpy as np  # Ensure NumPy is imported
 import os
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+current_dir = os.path.dirname(__file__)
+templates = Jinja2Templates(directory=os.path.join(current_dir, "templates"))
 
 # Load the model using joblib with error handling
 try:
