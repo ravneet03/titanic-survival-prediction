@@ -1,39 +1,19 @@
-image: docker:latest
-
-services:
-  - docker:dind
+include:
+  - local: 'deploy_train/.gitlab-ci.yml'
+  - local: 'deploy_serve/.gitlab-ci.yml'
 
 stages:
   - build
-  - deploy
+  - deploy_train
+  - deploy_serve
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "exp"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
 variables:
   DOCKER_DRIVER: overlay2
 
 before_script:
   - docker info
-
-build:
-  stage: build
-  script:
-    - docker build -t my-fastapi-app:latest -f api/Dockerfile .
-    - docker save my-fastapi-app:latest -o my-fastapi-app.tar
-  artifacts:
-    paths:
-      - my-fastapi-app.tar
-  tags:
-    - localrunner
-    - localshell
-
-deploy:
-  stage: deploy
-  dependencies:
-    - build
-  script:
-    - docker load -i my-fastapi-app.tar
-    - docker run -d -p 5000:5000 my-fastapi-app:latest
-    - sleep 5 # wait for the container to be up
-    - docker ps -a # check if the container is running
-  tags:
-    - localrunner
-    - localshell

@@ -1,0 +1,36 @@
+stages:
+  - build
+  - deploy_train
+
+# Build Job
+build_image:
+  stage: build
+  script:
+    - echo "Building Docker image..."
+    - cd $CI_PROJECT_DIR
+    - ls -la # Verify files in the directory
+    - docker build -t my-app:latest -f api/Dockerfile .
+    - docker save my-app:latest -o my-app.tar
+  artifacts:
+    paths:
+      - my-app.tar
+  tags:
+    - localrunner
+    - localshell
+
+# Deploy Training Job
+deploy_train:
+  stage: deploy_train
+  script:
+    - echo "Deploying training container..."
+    - docker load -i my-app.tar
+    - docker stop training-container || true
+    - docker rm training-container || true
+    - docker run -d -e PORT=5003 -p 5003:5003 --name training-container my-app:latest python titanic/modeling/train.py
+    - sleep 5 # wait for the container to be up
+    - docker ps -a # check if the container is running
+  dependencies:
+    - build_image
+  tags:
+    - localrunner
+    - localshell
