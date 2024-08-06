@@ -1,13 +1,4 @@
-# Let's create a README.md file with the provided content
-
-readme_content = """
-# My Project
-
-A brief description of what this project does and who it's for.
-
-Explore the docs »
-
-View Demo · Report Bug · Request Feature
+# Titanic Survival Prediction
 
 ## Table of Contents
 
