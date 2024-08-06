@@ -96,11 +96,6 @@ first/
 │   └── plots.py
 ```
 
-
-### Running the Application
-
-Follow these steps to run the entire application:
-
 ### Running the Application
 
 Follow these steps to run the entire application:
