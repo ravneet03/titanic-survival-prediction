@@ -40,15 +40,15 @@ Make sure you have the following installed:
 
 1. **Clone the repo**
 
-   \`\`\`bash
+   ```bash
    git clone https://gitlab.com/mygroup18094828/first.git
-   \`\`\`
+   ```
 
 2. **Navigate to the project directory**
 
-   \`\`\`bash
+   ```bash
    cd first
-   \`\`\`
+   ```
 
 ## Usage
 
