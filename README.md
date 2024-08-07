@@ -55,7 +55,7 @@ Use this space to show useful examples of how a project can be used. Additional 
 ## Folder Structure
 
 ```plaintext
-first/
+titanic-survival-prediction/
 ├── api/
 │   ├── Dockerfile
 │   ├── requirements.txt
